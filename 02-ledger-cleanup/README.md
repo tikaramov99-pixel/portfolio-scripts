@@ -9,19 +9,17 @@
 
 **How to run them.** Windows with Microsoft Excel, then `pip install openpyxl pywin32`. The fictional sample is in `sample/ledgers` (3 quarters of a company called Northwind). Make a copy of the folder, because `normalize_ledgers.py` changes the files in place, and run it once; then `python consolidate_ledgers.py` writes `Summary.xlsx` into the same folder. Without Windows the first script does everything except the Excel step and says so.
 
-## The rounds with ChatGPT
+## How it was built
 
-40 rounds in 1 chat, here by stage.
+The work went stage by stage: the empty columns, the header, the total and the print, the Excel step, then the second folder and the summary. The problems worth knowing about, and how each was caught:
 
-| Rounds | Stage | What went wrong, and what fixed it |
+| Problem | How it showed | What fixed it |
 | --- | --- | --- |
-| 1 - 4 | Empty columns | The first script deleted the empty columns but wiped the header block and mixed up the column headers, because of the merged cells; unmerging first did not help, and only 1 sheet was processed. I specified the approach: cut the header block out first, delete the columns, then write the block back. |
-| 5 - 9 | Header layout | The header text was too long for single cells, so I asked for merged blocks. 2 runs failed with "MergedCell is read-only", since values were written into cells already merged and the merges overlapped; the AI changed the order. After checking the original I corrected the layout twice (where the title goes, and that the values sit in column F, not B) and asked to clear the header formatting. |
-| 10 - 12 | Print | A separate script for PDF in A4 landscape with all columns on 1 page wide. When I asked for all of it at once for the second folder, the AI gave only the export, so I asked for 1 run doing both, the clean-up first. |
-| 13 - 25 | Total and widths | The bold total, the thousands separator and text wrap came quickly. Then 12 rounds on row heights and column widths: the AI first presented a row "autofit" which openpyxl cannot do, then a row autofit through Excel which did not work either, then computed column widths which still turned the numbers into "######" when printed, and only after several rounds of "it does not work" did it state that a real AutoFit of widths exists only in Excel. The last step moved into Excel itself. |
-| 26 - 31 | The Excel step | I asked to turn the header text sideways to save width. 2 errors from Excel (orientation set on rows instead of a range, Save failing where SaveAs works) and 3 regressions which I caught: the total was no longer bold and was counted twice when the script ran again, the header values from column F disappeared, and after these fixes the script had stopped deleting the empty columns at all, which was the original task. |
-| 32 - 34 | Header text | The header text disappeared completely. The AI's first explanation and fix changed nothing; the second put the steps in the right order (save the header, delete the columns, rebuild the header). Then 8 pt, rows 14 - 15 bold and row 13 cleared. |
-| 35 - 40 | Second folder and the summary | The purchases folder with its own total column, and row 14 left horizontal. Then the summary script, its layout (grey bold header, double line under each quarter, no blank rows between quarters, bold grand total) and its version for the other folder. |
+| Merged cells | Deleting the empty columns wiped the header block and mixed up the column headers; writing into merged cells failed with "MergedCell is read-only" | The order of work: save the header block first, delete the columns, then write the block back into fresh merged cells |
+| Column widths | Computed widths still printed long numbers as "######" | Testing showed that a real AutoFit exists only in Excel, so the last step runs in Excel itself |
+| Regressions | A fix in one part quietly broke another: the total lost its bold, and once the script stopped deleting the empty columns, which was the whole task | Every version checked against the earlier results as well, not only the new change |
+| A fix which fixed nothing | The header text disappeared, and the first fix offered for it changed nothing in the test run | The steps put in the right order: save the header, delete the columns, rebuild the header |
+| The grand total | At the final check against the source files the summary showed twice the real total | Corrected in the table before it was sent; for publication, fixed in the script itself (see below) |
 
 ## Prepared for publication
 
@@ -29,7 +27,7 @@ The paths and the column to total are settings at the top of each script, the co
 
 3 problems of `consolidate_ledgers.py` are fixed here and marked in the code:
 
-1. A file which has already been through `normalize_ledgers.py` ends with its own total, and the summary took that row as an entry, so the grand total came out twice the real one. I caught it at the final run in January and, rather than going one more round with the AI, corrected the total in the table by hand; here the script itself skips the rows with the bold total.
+1. A file which has already been through `normalize_ledgers.py` ends with its own total, and the summary took that row as an entry, so the grand total came out twice the real one. I caught it at the final check in January and corrected the total in the table before it was sent; here the script itself skips the rows with the bold total.
 2. `Summary.xlsx` lies in the same folder and was read as one more input on a second run. It is now left out.
 3. The grand total also added the column number from the second header row. It now counts from the first entry.
 
