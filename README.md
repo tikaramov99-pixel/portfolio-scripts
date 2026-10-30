@@ -2,6 +2,8 @@
 
 Two real tasks from my work in the operations of a law firm in Moscow, January 2026, which I solved with Python scripts written by ChatGPT to my specification. I do not write code myself: my part was to describe the task and the files precisely enough, to run every version on the real files and to say what exactly came out wrong, including the cases where the AI reported a fix which in fact had not happened, until the result did what the task needed.
 
+Both scripts are simple by today's standards. In January 2026, though, I worked with AI in a chat window, and every version travelled from the chat to my computer and back: 9 rounds for the first task and 40 for the second, most of them spent catching what the AI reported as fixed and was not.
+
 All data in the samples is fictional. The real files were confidential and are not published; the scripts processed them on my own machine.
 
 | Case | The task | Rounds with ChatGPT | Result |
