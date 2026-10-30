@@ -4,9 +4,24 @@
 
 **What is new here.** The guidebook I wrote for my successor was meant for a person. [PLAYBOOK_2.md](PLAYBOOK_2.md) is written so that an AI agent connected to the workbook can follow it as well: the same steps, plus what the agent may and may not touch, and 2 checkpoints where it stops and waits for the coordinator. The agent finds the change, works out the new transfer within the buffer rules, lists the knock-on effects and drafts the messages; the decisions, and everything which leaves the team, stay with the coordinator.
 
-**How to run it.** Make a copy of the [offsite control workbook](https://docs.google.com/spreadsheets/d/1VDJnpJWNu_MXEThhQAgW-Vc-XflvHn3kSKLHj5RXNk0/edit?usp=sharing) (File → Make a copy), connect an AI assistant with Google Sheets access to it, and give it PLAYBOOK_2.md with the line "Run this on [link to the copy]; the carrier's notice of 19 February says OUT-2 now departs at 23:30."
+**Why it is written this way.** A flight change is found when everybody is busiest, and that is exactly when attention is lowest: a coordinator, or a partner who has to approve something between 2 meetings, skims, answers "yes" to a block of text and misses the one line which mattered. So the agent asks 1 thing at a time, with the facts on 3 lines and the reply ready to copy, and does not move on without an answer which names what was decided. The whole run takes 4 one-line replies at most.
 
-**What a correct run ends with.**
+## Run it yourself in 5 minutes
+
+1. **Make your own copy of the workbook.** Open the [offsite control workbook](https://docs.google.com/spreadsheets/d/1VDJnpJWNu_MXEThhQAgW-Vc-XflvHn3kSKLHj5RXNk0/edit?usp=sharing), then File → Make a copy. Keep the link to your copy.
+2. **Open an AI assistant which can work in Google Sheets**, for example Claude with the Google Sheets connector switched on, signed in with the Google account which owns the copy.
+3. **Give it the task.** Open [PROMPT.md](PROMPT.md), click "Copy raw file" (the icon at the top right of the file), paste it into a new chat, replace `PASTE THE LINK TO YOUR COPY HERE` with the link from step 1, and send.
+4. **Answer its questions.** Each comes with the reply to copy. With the workbook as it is, expect 3:
+
+| The agent asks | You reply |
+| --- | --- |
+| Is OUT-2 now at 23:30? | `23:30 confirmed` |
+| Move the transfer TR-D2 from 19:00 to 20:15? | `20:15 approved` |
+| Approve the 5 drafts (3 assistants, the agency, the hotel)? | `Drafts 1 - 5 approved` |
+
+5. **Check the result** against the table and the screenshots below. Nothing has been sent to anybody: the drafts are in the chat, for you to send.
+
+## What a correct run ends with
 
 | | Before | After |
 | --- | --- | --- |
