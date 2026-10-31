@@ -10,10 +10,11 @@
 
 1. **Download this folder.** On the main page of the repository: the green "Code" button → "Download ZIP", then unpack it and open the folder `04-offline-analysis`.
 2. **Start the program.** Windows: double-click `start-windows.bat`. Mac: right-click `start-mac.command` → Open. If Python is not on the computer yet, the start file installs it first, once, from python.org (the Mac asks for your password); this is the only moment anything is downloaded, and it happens before the program starts.
-3. **Choose how strict to be,** with the 2 tick boxes at the top:
+3. **If you like, press "Add a shortcut to the desktop"** at the top right: next time the program starts from its own icon on the desktop, like any other.
+4. **Choose how strict to be,** with the 2 tick boxes at the top:
    - *Switch off this program's own internet access*: on by default. The program needs no internet anyway; with this on, it could not use it even by mistake. The browser, the mail and everything else on the computer stay online.
    - *Strict mode*: for the most sensitive files. The program opens a file only when the whole computer is offline, and asks you to switch off Wi-Fi first if it is not.
-4. **Follow the 3 numbered steps in the window:**
+5. **Follow the 3 numbered steps in the window:**
    1. "Use the sample file" (or "Choose a file…" for your own);
    2. "Check the month": with the sample, 11 lines to check appear, each with what to do about it;
    3. "Save the report next to the file": a new Excel file appears beside the original, with 4 sheets: Summary, To check, By matter, By lawyer.
@@ -51,6 +52,7 @@ The column names and the limits (10 hours a day) are settings at the top of the 
 | --- | --- |
 | `check_month.pyw` | The whole program, in 1 file you can read |
 | `start-windows.bat`, `start-mac.command` | Start it; install Python first if it is missing |
+| `icon.ico`, `icon.png` | The program's icon, for the window and the desktop shortcut |
 | `sample/time_entries_2027-01.xlsx` | A fictional month: 408 time entries of an invented law firm, with the problems planted on purpose |
 | `make_sample.py` | How the sample was made; the only file here which needs an extra package |
 

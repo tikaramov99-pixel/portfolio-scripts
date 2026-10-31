@@ -321,7 +321,49 @@ def save_report(path, result):
     return out
 
 
-# --- 7. The window -------------------------------------------------------------------
+# --- 7. A shortcut on the desktop, if wanted ---------------------------------------
+SHORTCUT_NAME = "Check the month"
+
+
+def _desktop():
+    if sys.platform.startswith("win"):
+        # the real desktop folder, also when Windows keeps it in OneDrive
+        r = subprocess.run(["powershell", "-NoProfile", "-Command", "[Environment]::GetFolderPath('Desktop')"],
+                           capture_output=True, text=True, creationflags=0x08000000)
+        if r.stdout.strip():
+            return Path(r.stdout.strip())
+    return Path.home() / "Desktop"
+
+
+def shortcut_path():
+    ext = {"win32": ".lnk", "darwin": ".command"}.get(sys.platform, ".desktop")
+    return _desktop() / (SHORTCUT_NAME + ext)
+
+
+def add_to_desktop():
+    """Put a shortcut to this program on the desktop. Done on this computer only."""
+    target = shortcut_path()
+    if sys.platform.startswith("win"):
+        exe = Path(sys.executable)
+        if exe.name.lower() == "python.exe" and (exe.parent / "pythonw.exe").exists():
+            exe = exe.parent / "pythonw.exe"          # no black window behind the program
+        q = lambda p: str(p).replace("'", "''")
+        script = (f"$s = (New-Object -ComObject WScript.Shell).CreateShortcut('{q(target)}'); "
+                  f"$s.TargetPath = '{q(exe)}'; $s.Arguments = [char]34 + '{q(HERE / 'check_month.pyw')}' + [char]34; "
+                  f"$s.WorkingDirectory = '{q(HERE)}'; $s.IconLocation = '{q(HERE / 'icon.ico')}'; "
+                  f"$s.Description = 'Check the month before billing'; $s.Save()")
+        subprocess.run(["powershell", "-NoProfile", "-Command", script], check=True, creationflags=0x08000000)
+    elif sys.platform == "darwin":
+        target.write_text(f'#!/bin/bash\n"{HERE / "start-mac.command"}"\n')
+        target.chmod(0o755)
+    else:
+        target.write_text(f"[Desktop Entry]\nType=Application\nName={SHORTCUT_NAME}\n"
+                          f'Exec="{sys.executable}" "{HERE / "check_month.pyw"}"\nIcon={HERE / "icon.png"}\n')
+        target.chmod(0o755)
+    return target
+
+
+# --- 8. The window -------------------------------------------------------------------
 def main():
     import tkinter as tk
     from tkinter import filedialog, messagebox, ttk
@@ -336,7 +378,27 @@ def main():
     big = ("Segoe UI", 11)
     state = {"path": None, "result": None}
 
-    tk.Label(root, text="Check the month before billing", font=("Segoe UI", 20, "bold"), bg="white").pack(anchor="w", padx=24, pady=(18, 4))
+    try:
+        root.iconphoto(True, tk.PhotoImage(file=str(HERE / "icon.png")))
+    except tk.TclError:
+        pass
+    head = tk.Frame(root, bg="white"); head.pack(fill="x", padx=24, pady=(18, 4))
+    tk.Label(head, text="Check the month before billing", font=("Segoe UI", 20, "bold"), bg="white").pack(side="left")
+
+    def on_desktop():
+        try:
+            where = add_to_desktop()
+        except Exception as e:
+            messagebox.showerror("The shortcut could not be made", str(e))
+            return
+        b_desktop.config(text="✓ On the desktop", state="disabled")
+        messagebox.showinfo("Done", f"“{SHORTCUT_NAME}” is now on your desktop:\n{where}\n\n"
+                                    "Next time, start the program from there.")
+
+    on_desk = shortcut_path().exists()
+    b_desktop = ttk.Button(head, text="✓ On the desktop" if on_desk else "Add a shortcut to the desktop",
+                           command=on_desktop, state="disabled" if on_desk else "normal")
+    b_desktop.pack(side="right", ipady=3)
     tk.Label(root, text="🔒  This program works on this computer only: it uses no AI and no online service, "
                         "and it only reads your file, never changes it.",
              font=big, bg="#e7f4e4", fg="#1d5c2a", wraplength=1240, justify="left", padx=12, pady=10).pack(fill="x", padx=24, pady=(4, 6))
