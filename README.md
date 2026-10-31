@@ -4,7 +4,7 @@ Two real tasks from my work in the operations of a law firm in Moscow, January 2
 
 Both scripts are simple by today's standards. In January 2026, though, AI worked in a chat window and could not see my files or run anything: every version travelled from the chat to my computer and back, and the real work was in the checking.
 
-Cases 3 and 4 are from October 2026 and show where this has gone since: one of my offsite procedures rewritten so that an AI agent working inside the workbook can follow it, under checkpoints; and the method of case 1 made into a small app which anyone can start with a double click, so that a confidential file stays on the computer and only an anonymized sample goes to the AI.
+Cases 3 and 4 are from October 2026 and show where this has gone since: one of my offsite procedures rewritten so that an AI agent working inside the workbook can follow it, under checkpoints; and the other end of the scale: a monthly check of a confidential file done entirely on 1 computer, with no internet and no AI involved at all, for the cases where nothing may leave the office even in theory.
 
 All data in the samples is fictional. The real files were confidential and are not published; the scripts processed them on my own machine.
 
@@ -13,7 +13,7 @@ All data in the samples is fictional. The real files were confidential and are n
 | [1. Rows grouped by colour](01-group-rows-by-highlight/) (January 2026) | Monthly time entries for the firm's key client: put together the rows of a Word table which are marked with the same colour | 1 script, used for the monthly report |
 | [2. Ledger clean-up](02-ledger-cleanup/) (January 2026) | Folders of quarterly VAT ledger exports: delete the empty columns, rebuild the header, add the total, fit the print, then 1 summary table per folder | 2 scripts, used on 2 folders |
 | [3. A playbook for a person or an AI agent](03-agent-playbook/) (October 2026) | The offsite playbook for a flight moved by the carrier, rewritten so that an AI agent connected to the workbook can follow it, stopping for the coordinator's approval | The playbook, 2 logged runs, and a 5-minute guide to run it yourself |
-| [4. Confidential data, analysed offline](04-offline-analysis/) (October 2026) | A monthly time report checked before billing: the AI sees only an anonymized sample and writes the script, which runs on the real file, offline | An app in plain language: choose the file, check what the AI may see, run the report |
+| [4. Confidential data, checked entirely on 1 computer](04-offline-analysis/) (October 2026) | A month of lawyers' time entries checked before billing: duplicates, days over 10 hours, empty descriptions, wrong rates, matters over their cap | A program in 1 file which needs nothing but Python, switches off its own network access and only reads the file |
 
 ## How I worked with the AI
 

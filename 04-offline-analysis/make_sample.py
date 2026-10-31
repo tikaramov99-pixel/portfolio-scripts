@@ -4,6 +4,8 @@ firm for its clients, as the billing system would export it, with a few
 problems planted in it on purpose (the kind a monthly report has to catch).
 
 Everything here is invented: the firm, the lawyers, the clients, the cases.
+Only for making the sample, and the only file here which needs an extra package (pandas);
+the program itself, check_month.pyw, needs nothing but Python.
 Run: python make_sample.py  ->  sample/time_entries_2027-01.xlsx
 """
 import random
