@@ -4,28 +4,61 @@ entries from an Excel file and lists what has to be looked at before the
 report goes to the client.
 
 It works entirely on this computer:
-  - it switches off its own access to the network in its first lines (below);
-  - it uses only what comes with Python itself: nothing is downloaded or installed;
+  - it does not use the network for anything, and by default it also switches off
+    its own access to the network (below), so that it could not even by mistake;
+    the rest of the computer stays online;
+  - it uses only what comes with Python itself; the start files (start-windows.bat,
+    start-mac.command) install Python if it is missing, before the program starts;
   - no AI and no online service is involved at any point;
   - it only reads the file you choose and never changes it; the report is a new file.
 
-Start: double-click this file (Windows), or run  python3 check_month.pyw  (Mac).
+Start: start-windows.bat (Windows) or start-mac.command (Mac).
 """
 
-# --- 1. No network, from the first line on ---------------------------------------
-# Whatever the rest of the code does, it cannot open a connection: the steps which
-# every network connection in Python goes through are replaced by ones which refuse.
+# --- 1. The program's own network access, switched off by default -------------------
+# Every network connection in Python goes through the few steps below. They are
+# replaced by versions which refuse while NETWORK["blocked"] is True (the default; the
+# first tick box in the window). This concerns this program only: the browser, the
+# mail and everything else on the computer keep their internet.
 import socket
 
+NETWORK = {"blocked": True}
+_original = {name: getattr(socket.socket, name) for name in ("connect", "connect_ex", "sendto")}
+_original_create = socket.create_connection
 
-def _no_network(*args, **kwargs):
-    raise OSError("This program does not use the network.")
+
+def _guarded(name):
+    def step(self, *args, **kwargs):
+        if NETWORK["blocked"]:
+            raise OSError("This program's network access is switched off.")
+        return _original[name](self, *args, **kwargs)
+    return step
 
 
-socket.socket.connect = _no_network
-socket.socket.connect_ex = _no_network
-socket.socket.sendto = _no_network
-socket.create_connection = _no_network
+for _name in _original:
+    setattr(socket.socket, _name, _guarded(_name))
+
+
+def _guarded_create(*args, **kwargs):
+    if NETWORK["blocked"]:
+        raise OSError("This program's network access is switched off.")
+    return _original_create(*args, **kwargs)
+
+
+socket.create_connection = _guarded_create
+
+
+def computer_is_online():
+    """For the strict mode only: is this computer connected at all? 1 attempt to open a
+    connection to a public name server, which sends nothing; 1.5 seconds at most."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(1.5)
+    try:
+        return _original["connect_ex"](s, ("1.1.1.1", 53)) == 0
+    except OSError:
+        return False
+    finally:
+        s.close()
 
 # --- 2. Only Python's own modules ----------------------------------------------------
 import os
@@ -295,7 +328,7 @@ def main():
 
     root = tk.Tk()
     root.title("Check the month before billing")
-    root.geometry("1300x740")
+    root.geometry("1300x800")
     root.configure(bg="white")
     style = ttk.Style()
     style.configure("Treeview", rowheight=26, font=("Segoe UI", 10))
@@ -304,9 +337,21 @@ def main():
     state = {"path": None, "result": None}
 
     tk.Label(root, text="Check the month before billing", font=("Segoe UI", 20, "bold"), bg="white").pack(anchor="w", padx=24, pady=(18, 4))
-    tk.Label(root, text="🔒  This program works without the internet: it switches off its own network access when it starts, "
-                        "uses no AI and no online service, and only reads your file, never changes it.",
-             font=big, bg="#e7f4e4", fg="#1d5c2a", wraplength=1240, justify="left", padx=12, pady=10).pack(fill="x", padx=24, pady=(4, 14))
+    tk.Label(root, text="🔒  This program works on this computer only: it uses no AI and no online service, "
+                        "and it only reads your file, never changes it.",
+             font=big, bg="#e7f4e4", fg="#1d5c2a", wraplength=1240, justify="left", padx=12, pady=10).pack(fill="x", padx=24, pady=(4, 6))
+    blocked = tk.BooleanVar(value=True)
+    strict = tk.BooleanVar(value=False)
+    opts = tk.Frame(root, bg="white"); opts.pack(fill="x", padx=24, pady=(0, 10))
+
+    def on_block():
+        NETWORK["blocked"] = blocked.get()
+
+    tk.Checkbutton(opts, text="Switch off this program's own internet access (recommended; the rest of the computer stays online)",
+                   variable=blocked, command=on_block, font=big, bg="white", anchor="w", bd=0, highlightthickness=0).pack(fill="x")
+    tk.Checkbutton(opts, text="Strict mode, for the most sensitive files: open a file only when the whole computer is offline "
+                              "(switch off Wi-Fi first)",
+                   variable=strict, font=big, bg="white", anchor="w", bd=0, highlightthickness=0).pack(fill="x")
 
     def step(n, text):
         f = tk.Frame(root, bg="white"); f.pack(fill="x", padx=24, pady=6)
@@ -326,6 +371,12 @@ def main():
     saved_label = tk.Label(f3, text="", font=big, bg="white", fg="#555")
 
     def choose(path=None):
+        if strict.get() and computer_is_online():
+            messagebox.showwarning("The computer is online",
+                                   "Strict mode is on, and this computer is still connected to the internet.\n\n"
+                                   "Switch off Wi-Fi (or unplug the cable), then choose the file again. "
+                                   "You can switch the internet back on once the report is saved.")
+            return
         path = path or filedialog.askopenfilename(title="Choose the Excel file", filetypes=[("Excel", "*.xlsx")])
         if not path:
             return
