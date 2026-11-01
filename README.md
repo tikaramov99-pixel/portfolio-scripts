@@ -1,8 +1,8 @@
-# Working with AI: 2 scripts from January 2026, and 2 cases from October
+# Working with AI: 3 scripts from 2024 - 2026, and 2 cases from October 2026
 
-Two real tasks from my work in the operations of a law firm in Moscow, January 2026, which I solved with Python scripts written by ChatGPT to my specification. I do not write code myself: my part was to describe the task and the files precisely enough, to run every version on the real files and to say exactly what came out wrong, until the result did what the task needed.
+From August 2024 until I left at the end of June 2026 I had AI write Python scripts for the tasks of a law firm in Moscow, where I worked in operations: about once every month and a half, starting half a year before the practice got its name, "vibe coding", in February 2025. I do not write code myself: my part was to describe the task and the files precisely enough, to run every version on the real files and to say exactly what came out wrong, until the result did what the task needed.
 
-Both scripts are simple by today's standards. In January 2026, though, AI worked in a chat window and could not see my files or run anything: every version travelled from the chat to my computer and back, and the real work was in the checking.
+3 of those scripts are here: 1 of the early ones, from December 2024, and 2 from January 2026. All 3 are simple by today's standards. At the time, though, AI worked in a chat window and could not see my files or run anything: every version travelled from the chat to my computer and back, and the real work was in the checking.
 
 Cases 3 and 4 are from October 2026 and show where this has gone since: one of my offsite procedures rewritten so that an AI agent working inside the workbook can follow it, under checkpoints; and the other end of the scale: a monthly check of a confidential file done entirely on 1 computer, with no internet and no AI involved at all, for the cases where nothing may leave the office even in theory.
 
@@ -14,12 +14,14 @@ All data in the samples is fictional. The real files were confidential and are n
 | [2. Ledger clean-up](02-ledger-cleanup/) (January 2026) | Folders of quarterly VAT ledger exports: delete the empty columns, rebuild the header, add the total, fit the print, then 1 summary table per folder | 2 scripts, used on 2 folders |
 | [3. A playbook for a person or an AI agent](03-agent-playbook/) (October 2026) | The offsite playbook for a flight moved by the carrier, rewritten so that an AI agent connected to the workbook can follow it, stopping for the coordinator's approval | The playbook, 2 logged runs, and a 5-minute guide to run it yourself |
 | [4. Confidential data, checked on 1 computer](04-offline-analysis/) (October 2026) | A month of lawyers' time entries checked before billing: duplicates, days over 10 hours, empty descriptions, wrong rates, matters over their cap | A program in 1 file which needs nothing but Python (the start file installs it if missing), only reads the file, and can be cut off from the internet with 1 tick box |
+| [5. Counterparties checked by tax ID](05-counterparty-check/) (December 2024) | Several hundred counterparties: look each one up by tax ID in a public company-check service and write its current name and status into the table | 1 script which drives the browser, run once on the whole table, with a second pass for the pages which had not loaded |
 
 ## How I worked with the AI
 
-- The input described exactly: which rows and columns hold what, where the colour sits, what may and what may not be deleted, with cell addresses as Excel shows them.
+- The input described exactly: which rows and columns hold what, where the colour sits, what may and what may not be deleted, with cell addresses as Excel shows them. When the AI guessed at a web page, the HTML of the actual element copied from the page.
 - After every run, what I saw rather than what I guessed ("only the uncoloured rows came together, the coloured ones are still mixed"), and the error message pasted as it was.
 - The whole script asked for every time, not a fragment to splice in, so that nothing which already worked got lost on the way.
 - Every version checked by eye against the source files, including the parts which had worked before.
+- No guessing in the output: a status written only when the source states it, and a name left alone when nothing was read.
 
-Each folder has the script, a fictional sample to run it on and a short account of the problems worth knowing about and how each was caught. The code is the last version I used, cleaned up for publication in October 2026: the paths, the client-specific settings and the comments, plus 3 fixes in 1 script which are listed and marked in the code.
+Each folder has the script, a fictional sample to run it on and a short account of the problems worth knowing about and how each was caught. The code is the last version I used, cleaned up for publication in October 2026: the paths, the client-specific settings and the comments, plus the fixes listed in each folder and marked in the code (3 in case 2, 3 in case 5).

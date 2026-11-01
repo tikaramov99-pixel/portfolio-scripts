@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company check (local demo copy)</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #f4f5f7; color: #1d2330; margin: 0; }
+  .note { background: #fff6d6; padding: 8px 16px; font-size: 13px; }
+  main { max-width: 720px; margin: 48px auto; padding: 0 16px; position: relative; }
+  h1 { font-size: 24px; margin: 0 0 16px; }
+  input { width: 100%; box-sizing: border-box; font-size: 18px; padding: 14px 16px; border: 1px solid #c9ced8; border-radius: 10px; background: #fff; }
+  .card { position: absolute; left: 16px; right: 16px; margin-top: 8px; background: #fff; border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.12); padding: 16px; line-height: 1.6; }
+  .card .name { font-weight: 600; }
+  .card .ok { color: #1a7f37; } .card .bad { color: #c62828; } .card .other { color: #8a5a00; }
+  .card .muted { color: #6b7280; font-size: 14px; }
+  .toast { margin-top: 12px; padding: 12px 16px; border-radius: 10px; background: #fde8e8; color: #9b1c1c; }
+</style>
+</head>
+<body>
+<div class="note">A local page with fictional data, for running the script without the internet. It works like the real service did in 2024: a search box, then a card under it.</div>
+<main>
+  <h1>Check a counterparty</h1>
+  <input data-qa-type="search.input" autocomplete="off" placeholder="Tax ID, 10 or 12 digits" autofocus>
+  <div id="out"></div>
+</main>
+<script>
+// Fictional companies. "slow": on the first lookup the card appears at once
+// but fills in only after 9 seconds, longer than the script waits; on the
+// next lookup it fills in at once. This is what made the second pass needed.
+const DATA = {
+  "7701000013": { name: "Northwind Trading LLC", status: "Operating since 12.03.2015" },
+  "7702000026": { name: "Harbor Line Logistics LLC", status: "Organisation liquidated on 04.06.2023" },
+  "7703000039": { name: "Greyfield Construction JSC", status: "Operating since 27.09.2011", slow: true },
+  "770400004211": { name: "Sole trader Petrov Ivan", status: "Sole trader liquidated on 15.01.2022" },
+  "7705000052": { name: "Riverside Foods LLC", status: "Operating since 03.02.2019" },
+  "7706000065": { name: "Altair Equipment Leasing LLC", status: "Being reorganised by merger" },
+  "7707000078": { name: "Old Mill Holdings LLC", status: "Organisation liquidated on 30.11.2021", slow: true },
+  "770800008422": { name: "Sole trader Smirnova Anna", status: "Operating since 18.08.2020" },
+  "7709000091": { name: "Polar Star Shipping JSC", status: "Operating since 06.05.2008" }
+};
+
+function seen() { try { return JSON.parse(window.name || "{}"); } catch (e) { return {}; } }
+function remember(id) { const s = seen(); s[id] = 1; window.name = JSON.stringify(s); }
+
+const box = document.querySelector("input");
+const out = document.getElementById("out");
+
+box.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") return;
+  const id = box.value.replace(/\D/g, "");
+  out.innerHTML = "";
+  const c = DATA[id];
+  if (!c) {
+    setTimeout(() => { out.innerHTML = '<div class="toast">No such counterparty</div>'; }, 700);
+    return;
+  }
+  const card = document.createElement("div");
+  card.className = "card";
+  card.setAttribute("data-qa-type", "result.popover");
+  card.innerHTML = '<div class="muted">Loading…</div>';
+  const slow = c.slow && !seen()[id];
+  remember(id);
+  setTimeout(() => out.appendChild(card), slow ? 0 : 500);
+  setTimeout(() => {
+    const cls = /operating/i.test(c.status) ? "ok" : /liquidated/i.test(c.status) ? "bad" : "other";
+    card.innerHTML = '<div class="name">' + c.name + '</div><div class="' + cls + '">' + c.status +
+      '</div><div class="muted">Tax ID ' + id + '</div>';
+  }, slow ? 9000 : 900);
+});
+</script>
+</body>
+</html>
