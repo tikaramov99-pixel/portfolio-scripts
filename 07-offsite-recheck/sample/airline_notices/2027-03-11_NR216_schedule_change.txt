@@ -1,0 +1,11 @@
+From: Northern Air <noreply@northernair.example>
+Date: 11 March 2027
+Subject: Schedule change NR 216, 21 March 2027
+
+Dear passenger,
+
+The schedule of your flight NR 216 Tbilisi TBS - Moscow SVO on 21 March 2027 has changed.
+Was: departure 14:00, arrival 16:20.
+Now: departure 11:10, arrival 13:30.
+
+All passengers on this flight are affected. No action is needed if the new time suits you.

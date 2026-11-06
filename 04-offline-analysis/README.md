@@ -4,6 +4,8 @@
 
 **What is shown here.** A small program which does the check with nothing outside the computer involved: no AI, no online service, and by default not even its own access to the internet. It does less than an AI could, and that is the point: the most confidential way of doing the job, which still saves the hours. How strict to be is a tick box, since not every file is that sensitive and the computer may be needed online at the same time.
 
+This case is also the example of a small finished application, for people who will never open a terminal, built with Claude in a chat window. [Case 7](../07-offsite-recheck/) is also a check which produces a report, and is there for a different reason: it shows the same kind of work done in Claude Code.
+
 ![The program after checking the sample month](images/window.png)
 
 ## Run it yourself in 5 minutes

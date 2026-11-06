@@ -1,10 +1,12 @@
-# Working with AI: 4 scripts from 2024 - 2026, and 2 cases from October 2026
+# Working with AI: 4 scripts from 2024 - 2026, 2 cases from October 2026 and 1 from November 2026
 
 From August 2024 until I left at the end of June 2026 I had AI write Python scripts for the tasks of a law firm in Moscow, where I worked in operations: about once every month and a half, starting half a year before the practice got its name, "vibe coding", in February 2025. I do not write code myself: my part was to describe the task and the files precisely enough, to run every version on the real files and to say exactly what came out wrong, until the result did what the task needed.
 
 4 of those scripts are here: 2 of the early ones, from September and December 2024, and 2 from January 2026 (the very first, on 7 August 2024, did nothing more than list the files in a folder). All 4 are simple by today's standards. At the time, though, AI worked in a chat window and could not see my files or run anything: every version travelled from the chat to my computer and back, and the real work was in the checking.
 
 Cases 3 and 4 are from October 2026 and show where this has gone since: one of my offsite procedures rewritten so that an AI agent working inside the workbook can follow it, under checkpoints; and the other end of the scale: a monthly check of a confidential file done entirely on 1 computer, with no internet and no AI involved at all, for the cases where nothing may leave the office even in theory.
+
+Case 7, from November 2026, is the same kind of work done in Claude Code, which reads the files, runs the script and sees its own errors: one of my offsite routines, the re-check of the tickets and the whole plan after every change, built to my rules, with my part reduced to what it always really was: the rules, the answers to its questions and the checking.
 
 All data in the samples is fictional. The real files were confidential and are not published; the scripts processed them on my own machine.
 
@@ -16,6 +18,7 @@ All data in the samples is fictional. The real files were confidential and are n
 | [4. Confidential data, checked on 1 computer](04-offline-analysis/) (October 2026) | A month of lawyers' time entries checked before billing: duplicates, days over 10 hours, empty descriptions, wrong rates, matters over their cap | A program in 1 file which needs nothing but Python (the start file installs it if missing), only reads the file, and can be cut off from the internet with 1 tick box |
 | [5. Counterparties checked by tax ID](05-counterparty-check/) (December 2024) | Several hundred counterparties: look each one up by tax ID in a public company-check service and write its current name and status into the table | 1 script which drives the browser, run once on the whole table, with a second pass for the pages which had not loaded |
 | [6. A register of acceptance certificates](06-acts-register/) (September 2024) | 1 long document with the text of all the certificates, typos included: a table with the date, the number and the amount of each | 1 script with 2 independent passes, the second one checking the first and printing what it missed |
+| [7. An offsite plan re-checked after every change](07-offsite-recheck/) (November 2026) | 40 participants, 3 assistants filling in 1 table, flights moved by the carrier and changes nobody passed on: check the table against the tickets and rebuild transfers, hotel changes and headcounts by my rules | A script written and run by Claude Code to my rules, in 4 rounds of my answers and corrections, with a report in the window, in Excel and in Word |
 
 ## How I worked with the AI
 
