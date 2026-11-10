@@ -1,6 +1,6 @@
 # Working with AI: 4 scripts from 2024 - 2026, 2 cases from October 2026 and 1 from November 2026
 
-From August 2024 until I left at the end of June 2026 I had AI write Python scripts for the tasks of a law firm in Moscow, where I worked in operations: about once every month and a half, starting half a year before the practice got its name, "vibe coding", in February 2025. I do not write code myself: my part was to describe the task and the files precisely enough, to run every version on the real files and to say exactly what came out wrong, until the result did what the task needed.
+From August 2024 until I left at the end of June 2026 I had AI write Python scripts for the tasks of a law firm, where I worked in operations: about once every month and a half, starting half a year before the practice got its name, "vibe coding", in February 2025. I do not write code myself: my part was to describe the task and the files precisely enough, to run every version on the real files and to say exactly what came out wrong, until the result did what the task needed.
 
 4 of those scripts are here: 2 of the early ones, from September and December 2024, and 2 from January 2026 (the very first, on 7 August 2024, did nothing more than list the files in a folder). All 4 are simple by today's standards. At the time, though, AI worked in a chat window and could not see my files or run anything: every version travelled from the chat to my computer and back, and the real work was in the checking.
 
