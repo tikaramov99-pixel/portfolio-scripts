@@ -1,0 +1,9 @@
+{
+  "filter": {
+    "or": [
+      {"property": "Status", "select": {"equals": "Applied"}},
+      {"property": "Status", "select": {"equals": "In progress"}}
+    ]
+  },
+  "sorts": [{"property": "Submitted", "direction": "ascending"}]
+}

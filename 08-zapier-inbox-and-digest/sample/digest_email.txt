@@ -1,0 +1,19 @@
+In progress - check whether anyone is waiting for you:
+#101 Acme Demo Co
+#102 Northwind Labs
+#103 Contoso Ventures
+#104 Globex Test
+#105 Initech Sample
+
+Time for Silence (10+ days):
+#92 Umbrella Works - 13 days without a reply
+#95 Hooli Remote - 11 days without a reply
+#97 Stark Ops - 10 days without a reply
+
+Will become Silence this week:
+#98 Wayne Staffing - Silence from 17.11
+#99 Soylent Team - Silence from 19.11
+#100 Tyrell Hiring - Silence from 20.11
+#106 Vandelay Global - Silence from 21.11
+#107 Cyberdyne Partners - Silence from 22.11
+#108 Oscorp Talent - Silence from 23.11
