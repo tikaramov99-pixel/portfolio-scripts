@@ -25,13 +25,13 @@ The point is 1 rule for every kind of letter, written down once, instead of a de
 | Step | What it does |
 | --- | --- |
 | Schedule | Every Monday at 8:00 |
-| Notion: query data source | All open lines of the tracker, with the filter in [notion_query_filter.json](notion_query_filter.json) |
-| Code by Zapier, Python | [weekly_digest.py](weekly_digest.py): splits the lines into 3 blocks by status and by the days since the application |
+| Notion: query data source | All open lines of the tracker, with the filter in [notion_query_filter.json](notion_query_filter.json); each line comes already joined into 1 string by a formula property ([notion_formula.txt](notion_formula.txt)) |
+| Code by Zapier, Python | [weekly_digest.py](weekly_digest.py): splits the lines into 3 blocks by status and by the days since the application, and lists separately any line it could not read |
 | Gmail: send email | The digest to myself |
 
 ## Run the Python step yourself
 
-`python weekly_digest.py` (Python 3.7 or later, nothing to install). Outside Zapier it reads [sample/zapier_input.json](sample/zapier_input.json), 15 fictional lines in the shape in which Zapier passes them (each field as 1 string with commas), as of Monday 16 November 2026, and prints [the letter](sample/digest_email.txt):
+`python weekly_digest.py` (Python 3.7 or later, nothing to install). Outside Zapier it reads [sample/zapier_input.json](sample/zapier_input.json), 15 fictional lines in the shape in which Zapier passes them (1 field, the lines separated by commas, the fields of a line by "|"; 1 company has a comma in its name, as in real life), as of Monday 16 November 2026, and prints [the letter](sample/digest_email.txt):
 
 ```
 In progress - check whether anyone is waiting for you:
@@ -56,12 +56,9 @@ The line submitted the day before is left out on purpose: under 3 days it is not
 | A path matched on the phrase "next steps" | A polite form letter from an agency ("about our next steps") would have been filed as a next step | The phrase removed; the path keys on phrases which only a real invitation uses |
 | The wrong field mapped into the Python step | The step received an internal Notion property ID instead of dates, and every line was skipped | The date field picked again in the step's input |
 | Silence counted from the wrong date | The tracker's date column held the day a vacancy was found, not the day of the application, and the first check moved 3 lines to "Silence" 2 days early | The 3 lines put back the same day; a separate "Submitted" column added and filled for 27 open lines, and the 10 days counted from it |
+| Companies attached to the wrong numbers (found 23 November 2026) | The step received 4 separate lists (numbers, companies, statuses, dates) and paired them by position. 2 company names in the tracker had a comma inside, Zapier's own separator, so from that line on every company moved to someone else's number: the digest said "#129 WhereNext" where #129 was another company. The dates were not affected, so the Silence rule kept working, which is why it went unnoticed for 2 weeks | A formula property in Notion joins each line into 1 string (number, company, status, date; commas in names become ";"), the step receives that 1 field, and any line it cannot read goes to a separate block of the letter instead of being paired with the wrong data |
 
-The last one is the one I would point to: the rule was right and the code was right, and the result was still wrong, because the data meant something else than its name. It was caught because I checked the first run against the dates I knew.
-
-## Known limit
-
-Zapier joins each field of the Notion results with commas, so a company name with a comma in it would shift the lines. None of mine have one; if it happens, the fix is to map the fields as line items instead of text.
+2 of these I would point to. The date one: the rule was right and the code was right, and the result was still wrong, because the data meant something else than its name; it was caught because I checked the first run against the dates I knew. And the comma one: I had written it down here as a known limit with "none of mine have one", and 2 weeks later 2 of mine had one. It was caught the same way, by reading the digest against the tracker, not by trusting it. The fix removes the cause rather than the symptom: 1 line travels as 1 piece, so nothing can drift apart.
 
 ## Prepared for publication
 

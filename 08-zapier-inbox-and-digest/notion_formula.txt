@@ -1,0 +1,7 @@
+Notion formula property "Digest line" in the tracker: 1 string per application,
+so that the Python step receives 1 field instead of 4 lists which can drift apart.
+
+format(prop("#")) + "|" + replaceAll(prop("Company"), ",", ";") + "|" + format(prop("Status")) + "|" + formatDate(prop("Submitted"), "YYYY-MM-DD")
+
+Example result:
+98|Wayne Staffing (Gotham; NY)|Applied|2026-11-07  (the company is "Wayne Staffing (Gotham, NY)" in the tracker)
