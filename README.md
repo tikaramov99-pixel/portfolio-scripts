@@ -1,4 +1,4 @@
-# Working with AI: 4 scripts from 2024 - 2026, 2 cases from October 2026 and 2 from November 2026
+# Working with AI: 4 scripts from 2024 - 2026, 2 cases from October 2026 and 3 from November 2026
 
 From August 2024 until I left at the end of June 2026 I had AI write Python scripts for the tasks of a law firm, where I worked in operations: about once every month and a half, starting half a year before the practice got its name, "vibe coding", in February 2025. I do not write code myself: my part was to describe the task and the files precisely enough, to run every version on the real files and to say exactly what came out wrong, until the result did what the task needed.
 
@@ -9,6 +9,8 @@ Cases 3 and 4 are from October 2026 and show where this has gone since: one of m
 Case 7, from November 2026, is the same kind of work done in Claude Code, which reads the files, runs the script and sees its own errors: one of my offsite routines, the re-check of the tickets and the whole plan after every change, built to my rules, with my part reduced to what it always really was: the rules, the answers to its questions and the checking.
 
 Case 8, also from November 2026, moves from scripts to connected services: 2 Zaps which I built by hand in the Zapier editor and run on my own job search, sorting the replies from Gmail into Notion and sending me a digest every Monday, with 1 Python step inside and a check by Claude on top.
+
+Case 9, from the end of November 2026, takes the same tools a step further: a hiring process I ran at the firm, rebuilt as 1 system of 4 Zaps around a ClickUp base, from the resume saved on the shortlist to the recruiter's decision in 1 word, with the letters, the reminders and a Monday report in between.
 
 All data in the samples is fictional. The real files were confidential and are not published; the scripts processed them on my own machine.
 
@@ -22,6 +24,7 @@ All data in the samples is fictional. The real files were confidential and are n
 | [6. A register of acceptance certificates](06-acts-register/) (September 2024) | 1 long document with the text of all the certificates, typos included: a table with the date, the number and the amount of each | 1 script with 2 independent passes, the second one checking the first and printing what it missed |
 | [7. An offsite plan re-checked after every change](07-offsite-recheck/) (November 2026) | 40 participants, 3 assistants filling in 1 table, flights moved by the carrier and changes nobody passed on: check the table against the tickets and rebuild transfers, hotel changes and headcounts by my rules | A script written and run by Claude Code to my rules, in 4 rounds of my answers and corrections, with a report in the window, in Excel and in Word |
 | [8. Inbox triage and a weekly digest](08-zapier-inbox-and-digest/) (November 2026) | Replies to several dozen applications in 1 mailbox, mixed with job alerts: sort them into the tracker by type, and once a week say what is waiting and what has gone silent | 2 Zaps (Gmail, Filter, Formatter, Paths, Notion; Schedule, Notion, Python, Gmail), running since 10 November 2026, with the Python step to run yourself |
+| [9. A hiring pipeline, from the shortlist to the decision](09-zapier-hiring-pipeline/) (November 2026) | Candidates from a job board: a test assignment with a deadline, the answers to the recruiter, a decision in 1 word, the letters, reminders and a weekly report, without anyone moving a status by hand | 4 Zaps around 1 ClickUp list (Google Drive, Gmail, ClickUp, Paths, Delay, 4 Python steps), every branch tested on fictional candidates, with the Python steps to run yourself |
 
 ## How I worked with the AI
 
